@@ -23,3 +23,9 @@ steps:
 - script: |
     echo "Build finished successfully!"
   displayName: 'Build Complete'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.SourcesDirectory)'
+    artifactName: 'drop'
+  displayName: 'Publish Artifact'
