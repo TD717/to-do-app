@@ -4,28 +4,50 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
+stages:
+# ----------------------------------
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Building the app'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
 
-- script: |
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+    - script: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+      displayName: 'Install dependencies'
 
-- script: |
-    echo "Running application test step"
-  displayName: 'Test app'
+    - script: |
+        echo "Running dummy test step"
+      displayName: 'Test app (dummy)'
 
-- script: |
-    echo "Build finished successfully!"
-  displayName: 'Build Complete'
+    - script: |
+        echo "Build finished successfully!"
+      displayName: 'Build complete'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.SourcesDirectory)'
-    artifactName: 'drop'
-  displayName: 'Publish Artifact'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.SourcesDirectory)'
+        artifactName: 'drop'
+      displayName: 'Publish Build Artifact'
+
+# ----------------------------------
+- stage: Release
+  displayName: 'Release Stage'
+  dependsOn: Build
+  jobs:
+  - job: ReleaseJob
+    displayName: 'Release/Deploy Job'
+    steps:
+    - download: current
+      artifact: drop
+
+    - script: |
+        echo "Deploying To-Do App..."
+      displayName: 'Simulate Deployment'
