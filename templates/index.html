@@ -3,17 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px 15px;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .delete-form {
+            margin: 0;
+        }
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>My To-Do List</h1>
     <form action="/add" method="post">
-        <input type="text" name="todo" placeholder="New task">
+        <input type="text" name="todo" placeholder="New task" required>
         <input type="submit" value="Add">
     </form>
     <ul>
-        {% for todo in todos %}
-        <li>{{ todo }}</li>
+        {% for index, todo in enumerate(todos) %}
+        <li>
+            {{ todo }}
+            <form class="delete-form" action="/delete/{{ index }}" method="post">
+                <button class="delete-button" type="submit">Delete</button>
+            </form>
+        </li>
         {% endfor %}
     </ul>
 </body>
