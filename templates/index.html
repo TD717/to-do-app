@@ -62,14 +62,14 @@
         <input type="submit" value="Add">
     </form>
     <ul>
-        {% for index, todo in enumerate(todos) %}
+        {% for todo in todos %}
         <li>
             {{ todo }}
-            <form class="delete-form" action="/delete/{{ index }}" method="post">
+            <form class="delete-form" action="/delete/{{ loop.index0 }}" method="post">
                 <button class="delete-button" type="submit">Delete</button>
             </form>
         </li>
         {% endfor %}
-    </ul>
+    </ul>    
 </body>
 </html>
