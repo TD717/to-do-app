@@ -1,6 +1,9 @@
 trigger:
 - main
 
+variables:
+- group: Secure Secrets
+
 pool:
   name: Default
 
@@ -51,13 +54,6 @@ stages:
         echo "Deploying To-Do App..."
       displayName: 'Simulate Deployment'
 
-    - task: AzureKeyVault@2
-      inputs:
-        azureSubscription: 'AzureConnection'
-        KeyVaultName: 'todoappvaulttedidobi'
-        SecretsFilter: 'DATABASE-PASSWORD-TD'
-      displayName: 'Fetch Secret from Key Vault'
-
     - script: |
         echo "The secret password is: $(DATABASE-PASSWORD-TD)"
-      displayName: 'Use the Secret from Key Vault'
+      displayName: 'Use Secure Variable'
