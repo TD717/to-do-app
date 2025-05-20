@@ -6,4 +6,5 @@ A simple Flask-based Todo list application.
 
 ```bash
 pip install -r requirements.txt
+source venv/bin/activate
 python app.py
